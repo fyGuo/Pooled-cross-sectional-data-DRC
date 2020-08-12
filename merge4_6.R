@@ -308,7 +308,7 @@ new$province[new$province=="Bas Uele"|new$province=="Haut Uele"|
 
 
 
-
+write.csv(new,"merge4_6.csv")
 
 # You can see before the weight, the proportion in 2018 is far from
 # the report
