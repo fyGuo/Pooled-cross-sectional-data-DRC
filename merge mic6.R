@@ -1,3 +1,6 @@
+# This is the data to merge MICS6 household information and women level information
+# I will upload the hh.dta and wm.dta later. For this data we don't download 
+# from the UNICEF. We use the data from Professor Tang directly.
 #read and clean data
 library(dplyr)
 library(foreign)
@@ -11,7 +14,10 @@ length(unique(hh$HH1))
 length(unique(hh$PSU))
 wm<-read_dta("D:\\tang_data\\wm.dta")
 sum(wm$WM1!=wm$HH1)
-# we want to check the last birth year
+
+#########################
+# we want to check the last birth year to ensure all the women in the data
+# set have given live births in last two years preceeding the survey
 wm$BH4Y_last
 max(wm$BH4Y_last)
 wm$BH4Y_last<-as.numeric(wm$BH4Y_last)
@@ -37,26 +43,29 @@ index1<-which(wm$WM6Y==2017&wm$BH4Y_last==2016&wm$WM6M>wm$BH4M_last)
 length(index1)
 index2<-which(wm$WM6Y==2018&wm$BH4Y_last==2017&wm$WM6M>wm$BH4M_last)
 length(index2)
-wm<-wm[-c(index1,index2),]
+wm<-wm[-index2,]
 dim(wm)
 table(wm$WM6Y,wm$BH4Y_last)
-# create the hID
+###############################################
+# selet variables into wm, and create the variable hID to
+#represent the household ID
 wm<-dplyr::select(wm,WB3Y,HH1,CM11,CM8,HH2,MA1,WM6Y,
                   welevel,WB3Y,WB4,WDOBLC,MN2,MN3A,MN3D,MN3C,MN19A,MN19C,MN19D,MN5,wscore,
-                  CM17,wmweight,WAGE,windex5)
+                  CM17,wmweight,WAGE,windex5,PN13U,PN13N,PN22U,PN22N)
 wm$hID<-paste(wm$HH1,wm$HH2,sep = "_")
 sum(duplicated(wm$hID))
 new<-base::merge(wm,hh,by=c("hID","HH1","HH2"),all=F)
 dim(new)
-new
-# HH1 is the cluster
+
+# HH1 is the sampling cluster
 colnames(new)[names(new)=="HH1"]<-"cluster"
-str(new)
-# give the year to 2018
-str(new)
+
+# reset the year as 2018. The survey was conducted in 2017 and 2018 
+# but most in 2018
+
 new$year<-2018
 table(new$year)
-# check the women's age
+# check the women's age, and make it as a categorical variable age groups
 table(new$WAGE)
 colnames(new)[names(new)=='WAGE']<-"wmage"
 new$wmage<-factor(new$wmage,levels = 1:7,
