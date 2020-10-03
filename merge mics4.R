@@ -209,20 +209,20 @@ sum(!is.na(new$MN3))
 table(new$MN3)
 table(new$CM12Y)
 # we only use thos who gave birth in the last year before 2010
-table(new$MN1,new$CM12Y)
-new<-new[new$CM12Y==2009|CM12Y==2010]
-dim(new)
-str(new)
-new$CM12M<-as.numeric(new$CM12M)
-table(new$CM12M)
-length(new$CM12M)
-sum(is.na(new$CM12M))
-table(new$CM12M[new$CM12Y==2009],new$WM6M[new$CM12Y==2009])
-length(which(new$CM12Y==2009&(new$WM6M>new$CM12M)))
-ind<-which(new$CM12Y==2009&(new$WM6M>new$CM12M))
-new<-new[-ind,]
-dim(new)
-str(new)
+#table(new$MN1,new$CM12Y)
+#new<-new[new$CM12Y==2009|CM12Y==2010]
+#dim(new)
+#str(new)
+#new$CM12M<-as.numeric(new$CM12M)
+#table(new$CM12M)
+#length(new$CM12M)
+#sum(is.na(new$CM12M))
+#table(new$CM12M[new$CM12Y==2009],new$WM6M[new$CM12Y==2009])
+#length(which(new$CM12Y==2009&(new$WM6M>new$CM12M)))
+#ind<-which(new$CM12Y==2009&(new$WM6M>new$CM12M))
+#new<-new[-ind,]
+#dim(new)
+#str(new)
 # MN1 ever been ANC
 # MN2A ANC by doctor, MN2B ANC by nurse ,MN2D ANC by midwife
 # MN18 delivery place
