@@ -1,3 +1,7 @@
+# through this code we will transfer the dataset in sav form into csv form
+# in mics4, we will use household information and women individual level information
+# first load the package, foregin package could help us read the sav data
+###################################################################
 library(foreign)
 library(dplyr)
 df<-read.spss("D:\\Tang_new pooled model\\data\\Congo DR 2010 MICS_Datasets\\Democratic Republic of Congo_MICS4_Datasets\\Democratic Republic of Congo MICS 2010 SPSS Datasets\\hh.sav",
@@ -10,6 +14,7 @@ length(unique(df$HH1))
 dim(df)
 df$HH5Y
 str(df)
+# we will look at some variables we are interested in, please refer to the codebook here
 summary(df$HH1)
 summary(df$HH2)
 table(df$HH1[1:100],df$HH2[1:100])
@@ -20,15 +25,15 @@ summary(df$HH9)
 summary(df$HH13)
 summary(df$HC1A)
 summary(df$HC1C)
-df$helevel
-df$windex5
 summary(df$HHSEX)
 dim(df)
+# we will not use wealth score here, we will use wealth index quantile
 # use the wealth socre here
-df$wscore
-hh<-select(df,HH1,HH2,HH6,HH7,HH7B,HH9,HH13,HC1A,HC1C,helevel,wscore,HHSEX,windex5)
+#df$wscore
+hh<-select(df,HH1,HH2,HH6,HH7,HH7B,HH9,HH13,HC1A,HC1C,helevel,HHSEX,windex5)
 write.csv(hh,"hhmics4.csv")
-###################
+#################################################################
+# read the wm level information
 wm<-read.spss("D:\\Tang_new pooled model\\data\\Congo DR 2010 MICS_Datasets\\Democratic Republic of Congo_MICS4_Datasets\\Democratic Republic of Congo MICS 2010 SPSS Datasets\\wm.sav",
               to.data.frame = TRUE)
 
@@ -60,7 +65,7 @@ summary(wm$MN2D)
 summary(wm$MN18)
 summary(wm$MN3)
 summary(wm$CM10)
-#
+# save the selected variables
 wm<-select(wm,WM1,WM2,WM6M,WM6Y,WM7,WB1Y,WAGE,WAGEM,welevel,WB4,
            CM10,CM8,CM12Y,CM12M,CM13,MN1,MN2A,MN2B,MN2D,MN17A,MN17B,MN17D,MN18,MN3,MA1,wmweight)
 write.csv(wm,"wmmics4.csv")
